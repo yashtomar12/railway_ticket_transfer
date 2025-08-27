@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+
+<!-- Dashboard Hero -->
+<div class="hero text-center text-white d-flex align-items-center"
+     style="background: url('{% static "images/train3.jpg" %}') no-repeat center center/cover;
+            height: 350px;">
+  <div class="container">
+    <h1 class="display-3 fw-bold text-shadow">Welcome {{ user.username }}</h1>
+    <p class="lead fw-semibold text-shadow">Manage your railway ticket transfers easily</p>
+  </div>
+</div>
+
+<div class="container my-5">
+  <div class="row g-4">
+
+    <!-- ✅ New Request (With Background train4.jpg) -->
+    <div class="col-md-6">
+      <div class="card shadow-lg border-0 rounded-4 overflow-hidden">
+        <div class="p-4 text-white d-flex flex-column justify-content-center"
+             style="background: url('{% static "images/train4.jpg" %}') no-repeat center center/cover;
+                    min-height: 200px;">
+          <h3 class="fw-bold">🆕 New Transfer Request</h3>
+          <p>Submit a new ticket transfer request quickly and easily</p>
+        </div>
+        <div class="card-body">
+          <a href="{% url 'getticket:request_transfer' %}" 
+             class="btn btn-success btn-lg w-100 rounded-pill">New Request</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- ✅ My Requests (With Background train5.jpg) -->
+    <div class="col-md-6">
+      <div class="card shadow-lg border-0 rounded-4 overflow-hidden">
+        <div class="p-4 text-white d-flex flex-column justify-content-center"
+             style="background: url('{% static "images/train5.jpg" %}') no-repeat center center/cover;
+                    min-height: 200px;">
+          <h3 class="fw-bold">📜 My Requests</h3>
+          <p>Review your past and pending transfers</p>
+        </div>
+        <div class="card-body">
+          <a href="{% url 'getticket:my_requests' %}" 
+             class="btn btn-primary btn-lg w-100 rounded-pill">View My Requests</a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+
+<!-- 🔹 Hero Section -->
+<section class="text-center text-white d-flex align-items-center"
+         style="background: url('{% static "images/image1.jpg" %}') no-repeat center center/cover;
+                height: 100vh; position: relative;">
+  <!-- Dark overlay -->
+  <div style="position:absolute; top:0; left:0; right:0; bottom:0; background:rgba(0,0,0,0.6);"></div>
+
+  <div class="container position-relative">
+    <h1 class="display-3 fw-bold mb-3 animate__animated animate__fadeInDown">
+      Welcome to Railway Ticket Transfer 🚆
+    </h1>
+    <p class="lead mb-4 animate__animated animate__fadeInUp">
+      A smarter way to <strong>Register</strong>, <strong>Login</strong>, and manage your ticket transfers.  
+      Fast, secure, and paperless!
+    </p>
+
+    <!-- 🔹 Action Buttons -->
+    <div class="d-flex justify-content-center gap-3 mt-4 animate__animated animate__fadeInUp">
+      <a href="{% url 'getticket:register' %}" class="btn btn-success btn-lg rounded-pill px-5 shadow-lg">
+        📝 Register
+      </a>
+      <a href="{% url 'getticket:login' %}" class="btn btn-primary btn-lg rounded-pill px-5 shadow-lg">
+        🔑 Login
+      </a>
+      <a href="{% url 'getticket:staff_login' %}" 
+         class="btn btn-warning btn-lg px-5 rounded-pill shadow animate__animated animate__fadeInRight">
+         🧑‍💼 Staff Login
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- 🔹 Info Section -->
+<section class="py-5 bg-light text-center">
+  <div class="container">
+    <h2 class="fw-bold mb-4">Why Use This System?</h2>
+    <p class="lead text-muted mb-5">
+      Railway Ticket Transfer System is designed to make ticket transfers seamless.  
+      Whether you’re a passenger or staff, everything is easier here:
+    </p>
+    <div class="row g-4">
+      <div class="col-md-4">
+        <div class="p-4 border rounded-4 shadow-sm h-100">
+          <h4>⚡ Quick Setup</h4>
+          <p>Register in just a few clicks and start managing transfers instantly.</p>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="p-4 border rounded-4 shadow-sm h-100">
+          <h4>🔒 Secure Login</h4>
+          <p>Your data and ticket requests are always safe with staff validation.</p>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="p-4 border rounded-4 shadow-sm h-100">
+          <h4>📱 User-Friendly</h4>
+          <p>Modern design, accessible on all devices — mobile, tablet, or desktop.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 🔹 Footer -->
+<footer class="bg-dark text-white text-center py-3">
+  <p class="mb-0">© 2025 Railway Ticket Transfer | Designed for Passengers & Staff 🚆</p>
+</footer>
+
+{% endblock %}

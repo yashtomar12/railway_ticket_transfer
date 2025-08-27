@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<div class="container d-flex justify-content-center align-items-center" style="min-height: 90vh;">
+  <div class="card shadow-lg border-0 rounded-4 p-4" style="max-width: 400px; width: 100%;">
+
+    <h2 class="text-center mb-4">🔑 User Login</h2>
+
+    <!-- Show Error Messages -->
+    {% if messages %}
+      {% for message in messages %}
+        <div class="alert alert-danger text-center">{{ message }}</div>
+      {% endfor %}
+    {% endif %}
+
+    <form method="post" action="">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <button type="submit" class="btn btn-primary w-100 rounded-pill mt-3">Login</button>
+    </form>
+
+    <div class="text-center mt-3">
+      <p>Don't have an account? <a href="{% url 'getticket:register' %}">Register here</a></p>
+    </div>
+
+  </div>
+</div>
+{% endblock %}

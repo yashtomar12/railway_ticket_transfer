@@ -1,0 +1,152 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+
+<!-- 🔹 Navbar -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm fixed-top">
+  <div class="container">
+    <a class="navbar-brand fw-bold" href="#">🚆 Railway Transfers</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item"><a class="nav-link active" href="#">Home</a></li>
+        <li class="nav-item"><a class="nav-link" href="#features">Features</a></li>
+        <li class="nav-item"><a class="nav-link" href="#about">About</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- 🔹 Hero Section -->
+<header class="d-flex align-items-center text-center text-white"
+        style="background: url('{% static "images/train4.jpg" %}') no-repeat center center/cover;
+               height: 100vh; position: relative;">
+  <!-- Overlay -->
+  <div style="position:absolute; top:0; left:0; right:0; bottom:0; background:rgba(0,0,0,0.6);"></div>
+  
+  <div class="container position-relative d-flex flex-column align-items-center justify-content-center h-100">
+    <h1 class="display-2 fw-bold animate__animated animate__fadeInDown">
+      Railway Ticket Transfer System
+    </h1>
+    <p class="lead mt-3 animate__animated animate__fadeInUp w-75">
+      A smarter way to manage, transfer, and track your railway tickets.  
+      Built with <strong>simplicity, security, and speed</strong> in mind.
+    </p>
+
+    <!-- ✅ Centered Get Started Button -->
+    <a href="{% url 'home' %}" 
+       class="btn btn-warning btn-lg rounded-pill mt-4 shadow-lg animate__animated animate__fadeInUp">
+      🚀 Get Started
+    </a>
+  </div>
+</header>
+
+<!-- 🔹 Features Section -->
+<section id="features" class="py-5 bg-light">
+  <div class="container text-center">
+    <h2 class="fw-bold mb-4">Why Choose Us?</h2>
+    <p class="mb-5 text-muted">
+      We make railway ticket transfers stress-free with our user-first approach.  
+      Here’s what makes our system stand out:
+    </p>
+    <div class="row g-4">
+      <div class="col-md-4">
+        <div class="card border-0 shadow-sm p-4 h-100">
+          <h3>⚡ Easy Transfers</h3>
+          <p>Submit ticket transfer requests in just a few clicks.  
+             Our platform guides you step by step — no confusion, no delays.</p>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card border-0 shadow-sm p-4 h-100">
+          <h3>🔒 Secure System</h3>
+          <p>Every request is validated by railway staff to ensure  
+             <strong>fairness, authenticity, and transparency</strong> in transfers.</p>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card border-0 shadow-sm p-4 h-100">
+          <h3>📱 User-Friendly</h3>
+          <p>Whether you’re on a mobile phone, tablet, or desktop,  
+             you’ll enjoy a seamless experience with a modern design.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 🔹 About Section -->
+<section id="about" class="py-5">
+  <div class="container text-center">
+    <h2 class="fw-bold mb-4">About Our Platform</h2>
+    <p class="lead">
+      The <strong>Railway Ticket Transfer System</strong> is designed for both passengers and railway staff.  
+      Passengers can transfer tickets quickly, while staff have the tools to approve or reject requests fairly.  
+      Our mission is to bring <strong>digital transformation</strong> to traditional ticket management.
+    </p>
+    <p class="text-muted mt-3">
+      ✨ With this platform, say goodbye to long queues, confusion, and paperwork.  
+      Enjoy a <strong>fast, paperless, and transparent</strong> ticket transfer process anytime, anywhere.
+    </p>
+  </div>
+</section>
+
+<!-- 🔹 Footer -->
+<footer class="bg-dark text-white py-4 text-center">
+  <p class="mb-0">© 2025 Railway Ticket Transfer | All Rights Reserved</p>
+  <small>Designed with ❤️ to make your railway experience smoother</small>
+</footer>
+
+
+<!-- 🔹 Chatbot Floating Widget -->
+<div id="chatbox" style="position: fixed; bottom: 90px; right: 20px; width: 300px; display: none; z-index:1000;">
+  <div class="card shadow-lg">
+    <div class="card-header bg-primary text-white">💬 AI Assistant</div>
+    <div class="card-body" id="chat-messages" style="height: 250px; overflow-y: auto;">
+      <p class="text-muted">Ask me anything about ticket transfer 🚆</p>
+    </div>
+    <div class="card-footer">
+      <form id="chat-form">
+        <input type="text" id="chat-input" class="form-control" placeholder="Type a message..." required>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- Floating Button -->
+<button onclick="toggleChat()" class="btn btn-primary rounded-circle shadow-lg" 
+        style="position: fixed; bottom: 20px; right: 20px; width:60px; height:60px; z-index:999;">
+  💬
+</button>
+
+<script>
+function toggleChat() {
+  let chatbox = document.getElementById("chatbox");
+  chatbox.style.display = (chatbox.style.display === "none") ? "block" : "none";
+}
+
+document.getElementById("chat-form").addEventListener("submit", async function(e){
+  e.preventDefault();
+  let input = document.getElementById("chat-input");
+  let message = input.value;
+  let chatMessages = document.getElementById("chat-messages");
+
+  chatMessages.innerHTML += `<p><strong>You:</strong> ${message}</p>`;
+  input.value = "";
+
+  let response = await fetch("{% url 'getticket:chatbot_api' %}", {
+    method: "POST",
+    headers: {"X-CSRFToken": "{{ csrf_token }}"},
+    body: new URLSearchParams({"message": message})
+  });
+
+  let data = await response.json();
+  chatMessages.innerHTML += `<p><strong>AI:</strong> ${data.reply}</p>`;
+  chatMessages.scrollTop = chatMessages.scrollHeight;
+});
+</script>
+
+{% endblock %}

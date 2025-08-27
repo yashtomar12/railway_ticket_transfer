@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-5">
+  <h2 class="mb-4">📋 Pending Transfer Requests</h2>
+
+  {% if requests %}
+    <table class="table table-bordered shadow-sm align-middle">
+      <thead class="table-dark">
+        <tr>
+          <th>ID</th>
+          <th>Passenger Name</th>
+          <th>Ticket Image</th>
+          <th>Status</th>
+          <th>Remark</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for req in requests %}
+        <tr>
+          <td>{{ req.id }}</td>
+          <td>{{ req.passenger_name }}</td>
+          <td>
+            {% if req.ticket_image %}
+              <a href="{{ req.ticket_image.url }}" target="_blank">View Ticket</a><br>
+              <img src="{{ req.ticket_image.url }}" 
+                   alt="Ticket Image"
+                   class="img-thumbnail mt-2"
+                   style="max-height: 80px;">
+            {% else %}
+              <span class="text-muted">No Image</span>
+            {% endif %}
+          </td>
+          <td>
+            {% if req.status == "PENDING" %}
+              <span class="badge bg-warning text-dark">Pending</span>
+            {% elif req.status == "APPROVED" %}
+              <span class="badge bg-success">Approved</span>
+            {% else %}
+              <span class="badge bg-danger">Rejected</span>
+            {% endif %}
+          </td>
+          <td>{{ req.remark|default:"---" }}</td>
+          <td>
+            <!-- Approve Button -->
+            <form method="post" action="{% url 'getticket:approve_request' req.id %}" class="mb-2">
+              {% csrf_token %}
+              <input type="text" name="remark" placeholder="Remark" class="form-control form-control-sm mb-1">
+              <button type="submit" class="btn btn-success btn-sm w-100">Approve</button>
+            </form>
+
+            <!-- Reject Button -->
+            <form method="post" action="{% url 'getticket:reject_request' req.id %}">
+              {% csrf_token %}
+              <input type="text" name="remark" placeholder="Remark" class="form-control form-control-sm mb-1">
+              <button type="submit" class="btn btn-danger btn-sm w-100">Reject</button>
+            </form>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  {% else %}
+    <p class="text-muted">✅ No pending transfer requests at the moment.</p>
+  {% endif %}
+</div>
+{% endblock %}

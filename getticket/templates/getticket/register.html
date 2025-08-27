@@ -1,0 +1,49 @@
+{% extends "base.html" %}  {# use the base without navbar #}
+{% load static %}
+{% block content %}
+<div class="d-flex justify-content-center align-items-center vh-100 bg-light">
+  <div class="card shadow-lg p-4 rounded-4" style="max-width: 450px; width: 100%;" data-aos="fade-up">
+    
+    <div class="text-center mb-4">
+      <img src="{% static 'images/train3.jpg' %}" alt="Train Logo" 
+           class="rounded-circle shadow" width="90" height="90">
+      <h2 class="mt-3 fw-bold text-primary">User Registration</h2>
+      <p class="text-muted">Create your account to transfer tickets</p>
+    </div>
+
+    <form method="POST">
+      {% csrf_token %}
+      <div class="mb-3">
+        {{ form.username.label_tag }}
+        {{ form.username }}
+      </div>
+      <div class="mb-3">
+        {{ form.email.label_tag }}
+        {{ form.email }}
+      </div>
+      <div class="mb-3">
+        {{ form.password1.label_tag }}
+        {{ form.password1 }}
+      </div>
+      <div class="mb-3">
+        {{ form.password2.label_tag }}
+        {{ form.password2 }}
+      </div>
+
+      <button type="submit" class="btn btn-primary w-100 rounded-pill shadow-sm">Register</button>
+    </form>
+
+    <p class="text-center mt-3 mb-0">
+      Already have an account? 
+      <a href="{% url 'getticket:login' %}" class="text-decoration-none fw-semibold">Login here</a>
+    </p>
+  </div>
+</div>
+
+<!-- AOS Animation Library (if not already included in base.html) -->
+<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script>
+  AOS.init({ duration: 800, once: true });
+</script>
+{% endblock %}
